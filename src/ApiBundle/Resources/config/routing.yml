@@ -1,0 +1,8 @@
+api_homepage:
+    path:     /
+    defaults: { _controller: ApiBundle:Default:index }
+
+api_contact:
+    prefix: /contact
+    type: rest
+    resource: "@ApiBundle/Controller/ContactController.php"
