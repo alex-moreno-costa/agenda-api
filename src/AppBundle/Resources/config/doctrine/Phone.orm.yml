@@ -1,0 +1,21 @@
+AppBundle\Entity\Phone:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\PhoneRepository
+
+    manyToOne:
+        contact:
+            targetEntity: AppBundle\Entity\Contact
+            inversedBy: phones
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        number:
+            type: string
+            length: '15'
+    lifecycleCallbacks: {  }

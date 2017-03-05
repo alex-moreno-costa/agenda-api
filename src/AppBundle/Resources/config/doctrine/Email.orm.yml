@@ -1,0 +1,21 @@
+AppBundle\Entity\Email:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\EmailRepository
+
+    manyToOne:
+        contact:
+            targetEntity: AppBundle\Entity\Contact
+            inversedBy: emails
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        email:
+            type: string
+            length: '100'
+    lifecycleCallbacks: {  }

@@ -1,0 +1,166 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Class Contact
+ * @package AppBundle\Entity
+ */
+class Contact
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $image;
+
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $emails;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $phones;
+
+    public function __construct()
+    {
+        $this->emails = new ArrayCollection();
+        $this->phones = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Contact
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Contact
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Contact
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getEmails()
+    {
+        return $this->emails;
+    }
+
+    /**
+     * @param ArrayCollection $emails
+     * @return Contact
+     */
+    public function setEmails(ArrayCollection $emails)
+    {
+        $this->emails = $emails;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPhones()
+    {
+        return $this->phones;
+    }
+
+    /**
+     * @param ArrayCollection $phones
+     * @return Contact
+     */
+    public function setPhones(ArrayCollection $phones)
+    {
+        $this->phones = $phones;
+        return $this;
+    }
+}

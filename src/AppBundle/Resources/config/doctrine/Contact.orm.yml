@@ -1,0 +1,33 @@
+AppBundle\Entity\Contact:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ContactRepository
+
+    oneToMany:
+        phones:
+            targetEntity: AppBundle\Entity\Phone
+            mappedBy: contact
+            cascade: ['all']
+        emails:
+            targetEntity: AppBundle\Entity\Email
+            mappedBy: contact
+            cascade: ['all']
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        image:
+            type: string
+            length: 255
+            nullable: true
+        created:
+            type: datetime
+            nullable: true
+    lifecycleCallbacks: {  }
