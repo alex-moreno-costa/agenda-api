@@ -13,6 +13,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\VarDumper\VarDumper;
 
 use Symfony\Component\Serializer\Serializer;
@@ -67,26 +68,43 @@ class ContactController extends Controller
         $phoneCollection->add($phone2);
         $phoneCollection->add($phone3);
 
-        $contact1->setEmails($emailCollection);
+//        $contact1->setEmails($emailCollection);
         $contact1->setPhones($phoneCollection);
         $contact1->setName('Alex Moreno da Costa');
 
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
 
+        $encoder = new JsonEncoder();
+        $normalizer = new GetSetMethodNormalizer();
 
+        $emailCallback = function ($emails) {
 
-        $serializer = new Serializer($normalizers, $encoders);
+            $array = array();
+            foreach ($emails as $email) {
+                array_push($array, array(
+                    'id' => $email->getId(),
+                    'email' => $email->getEmail()
+                ));
 
-        $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceHandler(function ($object) {
-            return json_encode(array('id' => $object -> getId()));
-        });
+            }
+            return $array;
 
-        $jsonContent = $serializer->normalize($contact1, 'json');
-        VarDumper::dump($jsonContent);die();
-        $data = $this->get('serializer')->serialize($contact1,'json');
-        return new JsonResponse($data);
+        };
+
+        $phoneCallback = function ($phone) {
+            if ($phone instanceof Phone) {
+                return array(
+                    'id' => $phone->getId(),
+                    'phone' => $phone->getNumber()
+                );
+            }
+        };
+
+        $normalizer->setCallbacks(array('phones' => $phoneCallback, 'emails' => $emailCallback));
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+
+        $data = $serializer->serialize($contact1, 'json');
+        VarDumper::dump($data);die();
     }
 
     /**
