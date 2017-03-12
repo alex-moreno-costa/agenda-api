@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Respect\Validation\Validator as v;
+
 /**
  * Class Phone
  * @package AppBundle\Entity
@@ -42,8 +44,13 @@ class Phone
      */
     public function setNumber($number)
     {
-        $this->number = $number;
+        if (!v::phone()->validate($number)) {
+            throw new \InvalidArgumentException(
+                sprintf('O número de telefone informado %s não e valido',$number)
+            );
+        }
 
+        $this->number = $number;
         return $this;
     }
 
