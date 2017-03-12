@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Respect\Validation\Validator as v;
+
 /**
  * Class Email
  * @package AppBundle\Entity
@@ -42,8 +44,13 @@ class Email
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        if (!v::email()->validate($email)) {
+            throw new \InvalidArgumentException(
+                sprintf('O email informado %s não é valido', $email)
+            );
+        }
 
+        $this->email = $email;
         return $this;
     }
 
