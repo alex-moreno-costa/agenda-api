@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Respect\Validation\Validator as v;
 
 /**
  * Class Contact
@@ -65,8 +66,13 @@ class Contact
      */
     public function setName($name)
     {
-        $this->name = $name;
+        if (!v::stringType()->notEmpty()->validate($name)) {
+            throw new \InvalidArgumentException(
+                sprintf('O nome informado %s não é valido', $name)
+            );
+        }
 
+        $this->name = $name;
         return $this;
     }
 
@@ -89,8 +95,13 @@ class Contact
      */
     public function setImage($image)
     {
-        $this->image = $image;
+        if (!v::url()->validate($image)) {
+            throw new \InvalidArgumentException(
+                sprintf('A URL da imagem não é valida', $image)
+            );
+        }
 
+        $this->image = $image;
         return $this;
     }
 
