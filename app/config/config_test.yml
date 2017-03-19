@@ -14,3 +14,10 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver_test%"
+        charset:  UTF8
+        path:     "%database_path%"

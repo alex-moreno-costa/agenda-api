@@ -26,10 +26,11 @@ class ContactController extends Controller
     /**
      * @Get("/{id}", requirements={"id":"\d+"})
      * @param Contact $contact
+     * @return Contact
      */
     public function getContactAction(Contact $contact)
     {
-
+        return $contact;
     }
 
     /**
@@ -37,6 +38,8 @@ class ContactController extends Controller
      */
     public function getContactsAction()
     {
+        return $this->getDoctrine()->getRepository('AppBundle:Contact')->findAll();
+
         $contact1 = new Contact();
 
         $email1 = new Email();
