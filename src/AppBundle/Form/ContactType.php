@@ -2,7 +2,9 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +18,18 @@ class ContactType extends AbstractType
         $builder
             ->add('name')
             ->add('image')
-            ->add('created')
+            ->add('phones', CollectionType::class, array(
+                'entry_type' => PhoneType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ))
+            ->add('emails', CollectionType::class, array(
+                'entry_type' => EmailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ))
         ;
     }
     

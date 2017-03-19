@@ -153,6 +153,10 @@ class Contact
      */
     public function setEmails(ArrayCollection $emails)
     {
+        foreach ($emails as $email) {
+            $email->setContact($this);
+        }
+
         $this->emails = $emails;
         return $this;
     }
@@ -171,6 +175,10 @@ class Contact
      */
     public function setPhones(ArrayCollection $phones)
     {
+        foreach ($phones as $phone) {
+            $phone->setContact($this);
+        }
+
         $this->phones = $phones;
         return $this;
     }

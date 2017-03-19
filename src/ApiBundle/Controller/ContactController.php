@@ -13,6 +13,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -112,10 +113,18 @@ class ContactController extends Controller
 
     /**
      * @Post("/")
+     * @param Request $request
+     * @return View
      */
-    public function postContactAction()
+    public function postContactAction(Request $request)
     {
+//        VarDumper::dump($request->request->all());die();
+        $contact = new Contact();
+        $form = $this->createForm('AppBundle\Form\ContactType',$contact);
+        $form->submit($request->request->all());
+        VarDumper::dump($contact);die();
 
+        return View::create()->setStatusCode(201);
     }
 
     /**
