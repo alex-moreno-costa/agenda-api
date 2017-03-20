@@ -73,16 +73,31 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
     view:
-        formats:
-            rss: false
-            xml: false
-            json: true
-        templating_formats:
-            html: true
-            json: true
-        force_redirects:
-            html: true
-        failed_validation: HTTP_BAD_REQUEST
-        default_engine: twig
-        empty_content: 204
+        view_response_listener: 'force'
+    routing_loader:
+        default_format: json
+
+#fos_rest:
+#    param_fetcher_listener: true
+#    body_listener: true
+#    format_listener: true
+#    view:
+#        empty_content: 204
+#        view_response_listener: 'force'
+#        formats:
+#            xml: false
+#            json : true
+#        templating_formats:
+#            html: true
+#        force_redirects:
+#            html: true
+#        failed_validation: HTTP_BAD_REQUEST
+#        default_engine: twig
+#    routing_loader:
+#        default_format: json
+#    exception:
+#        enabled: true

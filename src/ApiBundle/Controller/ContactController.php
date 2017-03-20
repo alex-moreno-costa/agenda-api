@@ -118,17 +118,8 @@ class ContactController extends FOSRestController
         $contact = new Contact();
         $form = $this->createForm('AppBundle\Form\ContactType',$contact);
         $form->submit($request->request->all());
-//        VarDumper::dump($contact);die();
 
-        $serialize = new ContactSerialize();
-        $data = $serialize->serialize($contact);
-
-        $view = View::create($data,201);
-
-        // ...
-
-        $handler = $this->get('fos_rest.view_handler');
-        return $handler->handle($view);
+        return View::create($contact,201);
     }
 
     /**
