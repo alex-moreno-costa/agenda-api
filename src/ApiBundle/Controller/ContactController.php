@@ -2,27 +2,24 @@
 
 namespace ApiBundle\Controller;
 
+use ApiBundle\Serialize\ContactSerialize;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Email;
 use AppBundle\Entity\Phone;
 use Doctrine\Common\Collections\ArrayCollection;
+use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Delete;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\VarDumper\VarDumper;
-
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-class ContactController extends Controller
+class ContactController extends FOSRestController
 {
     /**
      * @Get("/{id}", requirements={"id":"\d+"})
@@ -118,13 +115,20 @@ class ContactController extends Controller
      */
     public function postContactAction(Request $request)
     {
-//        VarDumper::dump($request->request->all());die();
         $contact = new Contact();
         $form = $this->createForm('AppBundle\Form\ContactType',$contact);
         $form->submit($request->request->all());
-        VarDumper::dump($contact);die();
+//        VarDumper::dump($contact);die();
 
-        return View::create()->setStatusCode(201);
+        $serialize = new ContactSerialize();
+        $data = $serialize->serialize($contact);
+
+        $view = View::create($data,201);
+
+        // ...
+
+        $handler = $this->get('fos_rest.view_handler');
+        return $handler->handle($view);
     }
 
     /**

@@ -73,5 +73,16 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_rest:
-    routing_loader:
-        default_format: json
+    view:
+        formats:
+            rss: false
+            xml: false
+            json: true
+        templating_formats:
+            html: true
+            json: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+        empty_content: 204
